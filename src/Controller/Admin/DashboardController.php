@@ -49,7 +49,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Liste des tâches', 'fas fa-list', Task::class);
         yield MenuItem::linkToCrud('Les entreprise', 'fas fa-list', Compagny::class);
         yield MenuItem::linkToCrud('Les employes', 'fas fa-list', User::class);
-        yield MenuItem::linkToCrud('Les stagiaires', 'fas fa-list', User::class);
+        // yield MenuItem::linkToCrud('Les stagiaires', 'fas fa-list', User::class);
         yield MenuItem::linkToCrud('les statuts', 'fas fa-list', Status::class);
         yield MenuItem::linkToCrud('Les catégories', 'fas fa-list', CategoryFilesUser::class);
     }

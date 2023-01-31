@@ -21,9 +21,16 @@ class CategoryFilesUser
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: UserFile::class)]
     private Collection $userFiles;
 
+    #[ORM\Column(length: 255)]
+    private ?string $type = null;
+
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: CompagnyFiles::class)]
+    private Collection $compagnyFiles;
+
     public function __construct()
     {
         $this->userFiles = new ArrayCollection();
+        $this->compagnyFiles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,6 +74,48 @@ class CategoryFilesUser
             // set the owning side to null (unless already changed)
             if ($userFile->getCategory() === $this) {
                 $userFile->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CompagnyFiles>
+     */
+    public function getCompagnyFiles(): Collection
+    {
+        return $this->compagnyFiles;
+    }
+
+    public function addCompagnyFile(CompagnyFiles $compagnyFile): self
+    {
+        if (!$this->compagnyFiles->contains($compagnyFile)) {
+            $this->compagnyFiles->add($compagnyFile);
+            $compagnyFile->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompagnyFile(CompagnyFiles $compagnyFile): self
+    {
+        if ($this->compagnyFiles->removeElement($compagnyFile)) {
+            // set the owning side to null (unless already changed)
+            if ($compagnyFile->getCategory() === $this) {
+                $compagnyFile->setCategory(null);
             }
         }
 
