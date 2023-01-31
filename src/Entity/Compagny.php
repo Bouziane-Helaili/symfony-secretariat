@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CompagnyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -46,6 +48,14 @@ class Compagny
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $comment = null;
+
+    #[ORM\OneToMany(mappedBy: 'compagny', targetEntity: CompagnyFiles::class)]
+    private Collection $compagnyFiles;
+
+    public function __construct()
+    {
+        $this->compagnyFiles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -180,6 +190,36 @@ class Compagny
     public function setComment(?string $comment): self
     {
         $this->comment = $comment;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CompagnyFiles>
+     */
+    public function getCompagnyFiles(): Collection
+    {
+        return $this->compagnyFiles;
+    }
+
+    public function addCompagnyFile(CompagnyFiles $compagnyFile): self
+    {
+        if (!$this->compagnyFiles->contains($compagnyFile)) {
+            $this->compagnyFiles->add($compagnyFile);
+            $compagnyFile->setCompagny($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompagnyFile(CompagnyFiles $compagnyFile): self
+    {
+        if ($this->compagnyFiles->removeElement($compagnyFile)) {
+            // set the owning side to null (unless already changed)
+            if ($compagnyFile->getCompagny() === $this) {
+                $compagnyFile->setCompagny(null);
+            }
+        }
 
         return $this;
     }
