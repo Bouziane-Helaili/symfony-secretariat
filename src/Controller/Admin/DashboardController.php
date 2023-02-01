@@ -40,7 +40,8 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Mon assistante pro');
+            ->setTitle('Mon assistante pro')
+            ->setTranslationDomain('admin');
     }
 
     public function configureMenuItems(): iterable
