@@ -7,6 +7,7 @@ use App\Entity\Compagny;
 use App\Entity\Status;
 use App\Entity\Task;
 use App\Entity\User;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -47,11 +48,35 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Liste des tâches', 'fas fa-list', Task::class);
-        yield MenuItem::linkToCrud('Les entreprise', 'fas fa-list', Compagny::class);
-        yield MenuItem::linkToCrud('Les employes', 'fas fa-list', User::class);
-        // yield MenuItem::linkToCrud('Les stagiaires', 'fas fa-list', User::class);
-        yield MenuItem::linkToCrud('les statuts', 'fas fa-list', Status::class);
-        yield MenuItem::linkToCrud('Les catégories', 'fas fa-list', CategoryFilesUser::class);
+
+        // yield MenuItem::section('Tasks');
+        yield MenuItem::subMenu('Listes des tâches', 'fas fa-list')->setSubItems([
+            MenuItem::linkToCrud('Liste des tâches', 'fas fa-eye', Task::class)->setAction(Crud::PAGE_INDEX),
+            MenuItem::linkToCrud("Création d'une tâche", 'fas fa-plus', Task::class)->setAction(Crud::PAGE_NEW)
+        ]);
+
+        yield MenuItem::subMenu('Les entreprises', 'fas fa-list', Compagny::class)->setSubItems([
+            MenuItem::linkToCrud('Liste des entreprises', 'fas fa-eye', Compagny::class)->setAction(Crud::PAGE_INDEX),
+            MenuItem::linkToCrud("Ajouter une entreprise", 'fas fa-plus', Compagny::class)->setAction(Crud::PAGE_NEW)
+        ]);
+
+        yield MenuItem::subMenu('Les employes', 'fas fa-list')->setSubItems([
+            MenuItem::linkToCrud('Liste des employés', 'fas fa-eye', User::class)->setAction(Crud::PAGE_INDEX),
+            MenuItem::linkToCrud("Ajouter un employé", 'fas fa-plus', User::class)->setAction(Crud::PAGE_NEW)
+        ]);
+
+        yield MenuItem::subMenu('Les stagiaires', 'fas fa-list');
+// Lien dans le menu en attendant de de mettre un Crud pour les stagiaires
+       
+        yield MenuItem::subMenu('les statuts des stagiaires', 'fas fa-list')->setSubItems([
+            MenuItem::linkToCrud('Liste des statuts', 'fas fa-eye', Status::class)->setAction(Crud::PAGE_INDEX),
+            MenuItem::linkToCrud("Ajouter un statut", 'fas fa-plus', Status::class)->setAction(Crud::PAGE_NEW)
+        ]);
+
+
+        yield MenuItem::subMenu('Les catégories de téléchargement', 'fas fa-list')->setSubItems([
+            MenuItem::linkToCrud('Liste des catégories', 'fas fa-eye', CategoryFilesUser::class)->setAction(Crud::PAGE_INDEX),
+            MenuItem::linkToCrud("Ajouter une catégories", 'fas fa-plus', CategoryFilesUser::class)->setAction(Crud::PAGE_NEW)
+        ]);
     }
 }
