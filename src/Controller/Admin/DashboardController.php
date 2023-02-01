@@ -40,7 +40,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('CRM2');
+            ->setTitle('Mon assistante pro');
     }
 
     public function configureMenuItems(): iterable

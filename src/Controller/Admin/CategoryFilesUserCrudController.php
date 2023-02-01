@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\CategoryFilesUser;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class CategoryFilesUserCrudController extends AbstractCrudController
 {
@@ -12,14 +14,18 @@ class CategoryFilesUserCrudController extends AbstractCrudController
         return CategoryFilesUser::class;
     }
 
-    /*
+    
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
+          
+            TextField::new('category'),
+            ChoiceField::new('type')->setChoices([
+                'Entreprise' => 'Entreprise',
+                'Employé' => 'Employé',
+                'Stagiaire' => 'Stagiaire',
+            ])
         ];
     }
-    */
+    
 }
